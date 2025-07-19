@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xin Lỗi Em</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(135deg, #ff6b9d, #c44569, #f8b500);
+        background-size: 400% 400%;
+        animation: gradientShift 8s ease infinite;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Floating hearts */
+      .heart {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 20px;
+        animation: floatHeart 6s linear infinite;
+      }
+
+      @keyframes floatHeart {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 30px;
+        padding: 60px 40px;
+        text-align: center;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+        animation: containerPulse 3s ease-in-out infinite;
+      }
+
+      @keyframes containerPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      h1 {
+        color: white;
+        font-size: 2.2em;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        animation: textGlow 2s ease-in-out infinite alternate;
+      }
+
+      @keyframes textGlow {
+        from {
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        to {
+          text-shadow: 2px 2px 20px rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      .message {
+        color: white;
+        font-size: 1.3em;
+        margin-bottom: 40px;
+        line-height: 1.6;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      .accept-btn {
+        background: linear-gradient(45deg, #ff6b9d, #c44569);
+        color: white;
+        box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
+      }
+
+      .accept-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 12px 30px rgba(255, 107, 157, 0.6);
+      }
+
+      .reject-btn {
+        background: linear-gradient(45deg, #6c5ce7, #a29bfe);
+        color: white;
+        box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+        transition: all 0.3s ease;
+      }
+
+      .reject-btn:hover {
+        transform: translateX(20px) scale(0.9);
+        opacity: 0.8;
+        animation: shake 0.5s ease-in-out;
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(20px) scale(0.9);
+        }
+        25% {
+          transform: translateX(15px) scale(0.85);
+        }
+        75% {
+          transform: translateX(25px) scale(0.95);
+        }
+      }
+
+      .success-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        display: none;
+        z-index: 1000;
+        animation: popIn 0.5s ease;
+      }
+
+      @keyframes popIn {
+        0% {
+          transform: translate(-50%, -50%) scale(0);
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      .emoji {
+        font-size: 3em;
+        margin-bottom: 20px;
+        animation: bounce 1s ease infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .sparkle {
+        position: absolute;
+        color: gold;
+        animation: sparkle 2s linear infinite;
+      }
+
+      @keyframes sparkle {
+        0%,
+        100% {
+          opacity: 0;
+          transform: scale(0);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 40px 30px;
+        }
+
+        h1 {
+          font-size: 1.8em;
+        }
+
+        .message {
+          font-size: 1.1em;
+        }
+
+        .btn {
+          font-size: 1.1em;
+          padding: 12px 25px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Floating hearts -->
+    <div class="heart" style="left: 10%; animation-delay: 0s">💖</div>
+    <div class="heart" style="left: 20%; animation-delay: 1s">💕</div>
+    <div class="heart" style="left: 30%; animation-delay: 2s">💘</div>
+    <div class="heart" style="left: 40%; animation-delay: 1.5s">💝</div>
+    <div class="heart" style="left: 50%; animation-delay: 0.5s">💖</div>
+    <div class="heart" style="left: 60%; animation-delay: 2.5s">💕</div>
+    <div class="heart" style="left: 70%; animation-delay: 1.2s">💘</div>
+    <div class="heart" style="left: 80%; animation-delay: 3s">💝</div>
+    <div class="heart" style="left: 90%; animation-delay: 0.8s">💖</div>
+
+    <div class="container">
+      <h1>Mèo iuu ơi 💕</h1>
+      <div class="message">
+        Cho anh xin lỗi nhé 😭<br />
+        Mèo không chọn hoặc thoát là tha lỗi cho anh đó
+      </div>
+
+      <div class="buttons">
+        <button class="btn accept-btn" onclick="acceptApology()">
+          Mèo chấp nhận 💖
+        </button>
+        <button class="btn reject-btn" id="rejectBtn" onclick="handleReject()">
+          Không bao giờ 😤
+        </button>
+      </div>
+    </div>
+
+    <div class="success-message" id="successMessage">
+      <div class="emoji">🥰</div>
+      <h2 style="color: #ff6b9d; margin-bottom: 15px">
+        Yay! Mèo đã tha lỗi cho anh! 💕
+      </h2>
+      <p style="color: #666">Anh sẽ không làm em buồn nữa đâu! 🤗</p>
+    </div>
+
+    <script>
+      let rejectCount = 0;
+      const rejectMessages = [
+        "Không bao giờ 😤",
+        "Thật sự không 😠",
+        "Đừng có mơ 🙄",
+        "Anh cứ thế mà mơ 😏",
+        "Không đời nào 😝",
+        "Hừm... có lẽ... không! 😆",
+        "Okay fine... em tha lỗi 🥺",
+      ];
+
+      function handleReject() {
+        const rejectBtn = document.getElementById("rejectBtn");
+
+        if (rejectCount < rejectMessages.length - 1) {
+          rejectCount++;
+          rejectBtn.textContent = rejectMessages[rejectCount];
+
+          // Make button smaller and move more each time
+          const newSize = Math.max(0.7, 1 - rejectCount * 0.05);
+          rejectBtn.style.transform = `scale(${newSize})`;
+
+          // Add sparkle effects
+          createSparkles();
+        } else {
+          // Final acceptance
+          acceptApology();
+        }
+      }
+
+      function acceptApology() {
+        const successMessage = document.getElementById("successMessage");
+        successMessage.style.display = "block";
+
+        // Create celebration effects
+        createCelebration();
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+          successMessage.style.display = "none";
+        }, 5000);
+      }
+
+      function createSparkles() {
+        for (let i = 0; i < 10; i++) {
+          const sparkle = document.createElement("div");
+          sparkle.className = "sparkle";
+          sparkle.textContent = "✨";
+          sparkle.style.left = Math.random() * 100 + "%";
+          sparkle.style.top = Math.random() * 100 + "%";
+          sparkle.style.animationDelay = Math.random() * 2 + "s";
+
+          document.body.appendChild(sparkle);
+
+          setTimeout(() => {
+            sparkle.remove();
+          }, 2000);
+        }
+      }
+
+      function createCelebration() {
+        // Create multiple celebration elements
+        const celebrations = ["🎉", "🎊", "💖", "🌟", "✨"];
+
+        for (let i = 0; i < 30; i++) {
+          const celebration = document.createElement("div");
+          celebration.style.position = "fixed";
+          celebration.style.left = Math.random() * 100 + "vw";
+          celebration.style.top = "-50px";
+          celebration.style.fontSize = "30px";
+          celebration.style.zIndex = "999";
+          celebration.textContent =
+            celebrations[Math.floor(Math.random() * celebrations.length)];
+          celebration.style.animation = `floatHeart 3s linear forwards`;
+          celebration.style.pointerEvents = "none";
+
+          document.body.appendChild(celebration);
+
+          setTimeout(() => {
+            celebration.remove();
+          }, 3000);
+        }
+      }
+
+      // Prevent page from being closed easily
+      window.addEventListener("beforeunload", function (e) {
+        if (rejectCount < rejectMessages.length - 1) {
+          e.preventDefault();
+          e.returnValue = "Bé chưa tha lỗi cho anh mà! 🥺";
+          return "Bé chưa tha lỗi cho anh mà! 🥺";
+        }
+      });
+
+      // Add random floating hearts continuously
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "%";
+        heart.textContent = ["💖", "💕", "💘", "💝"][
+          Math.floor(Math.random() * 4)
+        ];
+        heart.style.animationDelay = "0s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 6000);
+      }, 1000);
+    </script>
+  </body>
+</html>
